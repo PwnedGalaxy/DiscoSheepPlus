@@ -12,6 +12,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Llama;
 import org.bukkit.material.Torch;
 
 /**
@@ -22,6 +23,7 @@ public class DSTeam {
         LinkedList<Sheep> sheepList = new LinkedList<Sheep>();
         LinkedList<Creeper> creeperList = new LinkedList<Creeper>();
         LinkedList<Ghast> ghastList = new LinkedList<Ghast>();
+        LinkedList<Llama> llamaList = new LinkedList<Llama>();
        
         Player player;
         Block soundBlock;
@@ -99,7 +101,15 @@ public class DSTeam {
                         }
                 }
                 sheepList.clear();
-               
+
+                for(Llama llama: llamaList){
+                        if(llama != null){
+                                DSParty.creaturesHash.remove(llama.getEntityId());
+                                llama.remove();
+                        }
+                }
+                llamaList.clear();
+
                 for(Creeper creeper: creeperList){
                         if(creeper != null){
                                 DSParty.creaturesHash.remove(creeper.getEntityId());
@@ -164,6 +174,18 @@ public class DSTeam {
                         DSParty.creaturesHash.put(sheep.getEntityId(), (Entity) sheep);              
                 }else{
                         System.out.println("[DiscoSheepPlus] addSheep in DiscoTeam received a sheep that was null. Sheep not added");
+                }
+        }
+        /**
+         * Add llama to the llamalist for this team
+         * @param llama
+         */
+        public void addLlama(Llama llama){
+                if(llama != null){
+                        llamaList.add(llama);
+                        DSParty.creaturesHash.put(llama.getEntityId(), (Entity) llama);
+                }else{
+                        System.out.println("[DiscoSheepPlus] addLlama in DiscoTeam received a llama that was null. Llama not added");
                 }
         }
         /**

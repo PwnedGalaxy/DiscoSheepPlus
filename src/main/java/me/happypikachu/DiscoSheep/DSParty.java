@@ -17,6 +17,7 @@ import org.bukkit.entity.Ghast;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Llama;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 /**
@@ -50,6 +51,7 @@ public class DSParty {
         public int sheepsN = 10;
         public int creepersN = 0;
         public int ghastsN = 0;
+        public int llamasN = 1;
         public int spawnRange = 5;
 
         protected LinkedList<DSTeam> discoTeams = new LinkedList<DSTeam>();
@@ -281,6 +283,7 @@ public class DSParty {
                         addSheeps(team, sheepsN);
                         addCreepers(team, creepersN);
                         addGhasts(team, ghastsN);
+                        addLlamas(team, llamasN);
                 }
         }
         /**
@@ -347,6 +350,28 @@ public class DSParty {
                         }
                 }
         }
+
+        /**
+         * Add llamas around the player
+         * @param team
+         */
+        private void addLlamas(DSTeam team, int llamas) {
+                Random rand = new Random();
+
+                int llamaNumber = llamas;
+                int spawnDistance = spawnRange;
+                for (int i = 0; i < llamaNumber; i++) {
+                        int r = rand.nextInt(spawnDistance * 2 * spawnDistance * 2);
+                        int x = (r%(spawnDistance * 2)) - spawnDistance;
+                        int z = (r/(spawnDistance * 2)) - spawnDistance;
+                        Block spawnPlane = team.getPlayer().getLocation().getBlock().getRelative(x, 0, z);
+                        Block spawnLoc = findSpawnYLoc(spawnPlane);
+                        if(spawnLoc != null){
+                                team.addLlama((Llama) spawnLoc.getWorld().spawnEntity(spawnLoc.getLocation(), EntityType.LLAMA));
+                        }
+                }
+        }
+
        
         /**
          * Search for a free place above player to install musicbox
