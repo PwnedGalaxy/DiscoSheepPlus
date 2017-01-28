@@ -132,7 +132,10 @@ public class DSCommandExecutor implements CommandExecutor {
             			return true;
             		}
             		
-            		Player[] onlinePlayer = plugin.getServer().getOnlinePlayers();
+            		LinkedList<Player> onlinePlayer = new LinkedList<Player>();
+                        
+                        onlinePlayer.addAll(plugin.getServer().getOnlinePlayers());
+
             		LinkedList<Player> getPartyPlayers = new LinkedList<Player>();
                    
             		// N = numbers
@@ -173,7 +176,7 @@ public class DSCommandExecutor implements CommandExecutor {
                     //If no players were specified, throw party for everyone
                     if (getPartyPlayers.size() == 0) {
                     	if(sender.hasPermission("discosheep.party.many")) {
-                    		if (onlinePlayer.length != 0) {
+                    		if (onlinePlayer.size() != 0) {
                     			for(Player p: onlinePlayer) {
                     				if (plugin.getConfig().getBoolean("Worlds." + p.getWorld().getName())) {
                     					getPartyPlayers.add(p);
